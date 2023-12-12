@@ -20,49 +20,21 @@ namespace Life
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool[,] matrix;
+        private GameLife _gameLife;
         private int width = 25;
         private int height = 25;
-
         public MainWindow()
         {
             InitializeComponent();
+            _gameLife = new GameLife(width, height);
             CreateMatrix(width, height);
-            matrix = new bool[height, width];
         }
 
-        private int GetNeighbors(int r, int c)
+        private void ShowMatrix()
         {
-            return Convert.ToInt32(matrix[(r - 1) % height, (c - 1) % width]) +
-                   Convert.ToInt32(matrix[(r + 1) % height, (c - 1) % width]) +
-                   Convert.ToInt32(matrix[(r + 1) % height, (c + 1) % width]) +
-                   Convert.ToInt32(matrix[(r - 1) % height, (c + 1) % width]) +
-                   Convert.ToInt32(matrix[(r - 1) % height, c]) +
-                   Convert.ToInt32(matrix[(r + 1) % height, c]) +
-                   Convert.ToInt32(matrix[r, (c - 1) % width]) +
-                   Convert.ToInt32(matrix[r, (c + 1) % width]);
-        }
-
-        private void NextGeneration()
-        {
-            bool[,] tmpMatrix = new bool[height, width];
             for (int i = 0; i < height; i++)
-            {
                 for (int j = 0; j < width; j++)
-                {
-                    int neighborsCount = GetNeighbors(i, j);
-                    bool currentState = matrix[i, j];
-                    // currentState && neighborsCount <= 1 => False
-                    // currentState && neighborsCount > 3  => False
-                    // !currentState && neighborsCount == 3 => True
-                    // currentState && (neighborsCount >= 2 && neighborsCount <= 3)
-
-                    tmpMatrix[i, j] = (currentState && neighborsCount is >= 2 and <= 3) ||
-                                      (!currentState && neighborsCount == 3);
-                }
-            }
-            // TODO: Проверить, работает ЛИ
-            matrix = tmpMatrix;
+                    ((Rectangle)GameMatrix.Children[height * i + j]).Fill = _gameLife[i, j] ? Brushes.Black : Brushes.White;
         }
 
         void CreateMatrix(int width, int height)
@@ -96,8 +68,14 @@ namespace Life
             {
                 rectangle.Fill = rectangle.Fill == Brushes.Black ? Brushes.White : Brushes.Black;
                 int[] coords = (int[])rectangle.Tag;
-                matrix[coords[0], coords[1]] = rectangle.Fill == Brushes.Black;
+                _gameLife[coords[0], coords[1]] = rectangle.Fill == Brushes.Black;
             }
+        }
+
+        private void NextButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _gameLife.NextGeneration();
+            ShowMatrix();
         }
     }
 }

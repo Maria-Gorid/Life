@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas x:Name="GameMatrix" Width="400" Height="400" HorizontalAlignment="Right" Margin="0,0,25,0" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Width="100" Height="40" Click="NextButton_OnClick">Next</Button>
+        <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
+            <Canvas x:Name="GameMatrix" Width="400" Height="400" HorizontalAlignment="Right" Margin="0,0,25,0" />
+        </Border>
     </Grid>
 </Window>
