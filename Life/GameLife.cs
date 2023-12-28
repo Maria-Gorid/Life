@@ -2,20 +2,24 @@
 
 namespace Life;
 
+[Serializable]
 public class GameLife
 {
-    private bool[,] matrix;
+    private int[,] matrix;
     private int width;
     private int height;
+
+    public int Width => width;
+    public int Height => height;
 
     public GameLife(int width, int height)
     {
         this.width = width;
         this.height = height;
-        matrix = new bool[height, width];
+        matrix = new int[height, width];
     }
 
-    public bool this[int i, int j]
+    public int this[int i, int j]
     {
         get => matrix[i, j];
         set => matrix[i, j] = value;
@@ -35,16 +39,16 @@ public class GameLife
 
     public void NextGeneration()
     {
-        bool[,] tmpMatrix = new bool[height, width];
+        int[,] tmpMatrix = new int[height, width];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
                 int neighborsCount = GetNeighbors(i, j);
-                bool currentState = matrix[i, j];
-
-                tmpMatrix[i, j] = (currentState && neighborsCount is >= 2 and <= 3) ||
-                                  (!currentState && neighborsCount == 3);
+                int currentState = matrix[i, j];
+                int value = Convert.ToInt32((currentState > 0 && neighborsCount is >= 2 and <= 3) ||
+                                            (!(currentState > 0) && neighborsCount == 3));
+                tmpMatrix[i, j] = value == 0 ? 0 : value;
             }
         }
 
@@ -59,7 +63,7 @@ public class GameLife
         {
             for (int j = 0; j < width; j++)
             {
-                matrix[i, j] = rnd.Next(1) == 1;
+                matrix[i, j] = rnd.Next(2);
             }
         }
     }

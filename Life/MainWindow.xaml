@@ -5,13 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Life"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="MainWindow_OnLoaded"
+        Closing="MainWindow_OnClosing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Width="100" Height="40" Click="NextButton_OnClick">Next</Button>
+        <StackPanel Grid.Column="0">
+            <Button Width="125" Height="35" Click="NextButton_OnClick">Ход</Button>
+            <Button Width="125" Height="35" Click="SaveButton_OnClick">Сохранить в файл...</Button>
+            <Button Width="125" Height="35" Click="LoadButton_OnClick">Загрузить из файла...</Button>
+            <Button Width="125" Height="35" Click="RandomGenerateButton_OnClick">Случайное заполнение</Button>
+        </StackPanel>
         <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
             <Canvas x:Name="GameMatrix" Width="400" Height="400" HorizontalAlignment="Right" Margin="0,0,25,0" />
         </Border>
