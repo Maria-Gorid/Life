@@ -27,14 +27,14 @@ public class GameLife
 
     private int GetNeighbors(int r, int c)
     {
-        return Convert.ToInt32(matrix[(height + r - 1) % height, (width + c - 1) % width]) +
-               Convert.ToInt32(matrix[(height + r + 1) % height, (width + c - 1) % width]) +
-               Convert.ToInt32(matrix[(height + r + 1) % height, (width + c + 1) % width]) +
-               Convert.ToInt32(matrix[(height + r - 1) % height, (width + c + 1) % width]) +
-               Convert.ToInt32(matrix[(height + r - 1) % height, c]) +
-               Convert.ToInt32(matrix[(height + r + 1) % height, c]) +
-               Convert.ToInt32(matrix[r, (width + c - 1) % width]) +
-               Convert.ToInt32(matrix[r, (width + c + 1) % width]);
+        return Convert.ToInt32(matrix[(height + r - 1) % height, (width + c - 1) % width] > 0) +
+               Convert.ToInt32(matrix[(height + r + 1) % height, (width + c - 1) % width] > 0) +
+               Convert.ToInt32(matrix[(height + r + 1) % height, (width + c + 1) % width] > 0) +
+               Convert.ToInt32(matrix[(height + r - 1) % height, (width + c + 1) % width] > 0) +
+               Convert.ToInt32(matrix[(height + r - 1) % height, c] > 0) +
+               Convert.ToInt32(matrix[(height + r + 1) % height, c] > 0) +
+               Convert.ToInt32(matrix[r, (width + c - 1) % width] > 0) +
+               Convert.ToInt32(matrix[r, (width + c + 1) % width] > 0);
     }
 
     public void NextGeneration()
@@ -48,7 +48,7 @@ public class GameLife
                 int currentState = matrix[i, j];
                 int value = Convert.ToInt32((currentState > 0 && neighborsCount is >= 2 and <= 3) ||
                                             (!(currentState > 0) && neighborsCount == 3));
-                tmpMatrix[i, j] = value == 0 ? 0 : value;
+                tmpMatrix[i, j] = value == 0 ? 0 : value + currentState;
             }
         }
 
